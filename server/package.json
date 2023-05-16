@@ -13,14 +13,18 @@
   ],
   "scripts": {
     "dev": "tsx watch src/",
-    "build": "tsc -p ./",
-    "start": "node build/"
+    "build": "tsc -p .",
+    "start": "node build/",
+    "check": "tsc --noEmit",
+    "lint": "eslint --fix src/**/*ts"
   },
   "dependencies": {
     "fastify": "^4.17.0"
   },
   "devDependencies": {
+    "@rocketseat/eslint-config": "^1.2.0",
     "@types/node": "^20.1.5",
+    "eslint": "^8.40.0",
     "tsx": "^3.12.7",
     "typescript": "^5.0.4"
   }
