@@ -22,12 +22,16 @@
     "expo-status-bar": "~1.4.4",
     "nativewind": "^2.0.11",
     "react": "18.2.0",
-    "react-native": "0.71.7"
+    "react-native": "0.71.7",
+    "lint": "eslint --fix src/**/*.{j,t}s{,x}"
   },
   "devDependencies": {
     "@babel/core": "^7.21.8",
+    "@rocketseat/eslint-config": "^1.2.0",
     "@types/react": "~18.0.27",
+    "eslint": "^8.40.0",
     "expo": "~48.0.16",
+    "prettier-plugin-tailwindcss": "^0.3.0",
     "tailwindcss": "^3.3.2",
     "typescript": "^4.9.4"
   }
