@@ -1,0 +1,32 @@
+{
+  "name": "capsula-do-tempo",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "authors": [
+    "RocketSeat",
+    "Julio L. Muller"
+  ],
+  "keywords": [
+    "rockettseat",
+    "nlw"
+  ],
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "expo-status-bar": "~1.4.4",
+    "react": "18.2.0",
+    "react-native": "0.71.7"
+  },
+  "devDependencies": {
+    "@types/react": "~18.0.27",
+    "@babel/core": "^7.21.8",
+    "expo": "~48.0.16",
+    "typescript": "^4.9.4"
+  }
+}
