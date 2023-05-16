@@ -1,0 +1,27 @@
+{
+  "name": "capsula-do-tempo",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "authors": [
+    "RocketSeat",
+    "Julio L. Muller"
+  ],
+  "keywords": [
+    "rockettseat",
+    "nlw"
+  ],
+  "scripts": {
+    "dev": "tsx watch src/",
+    "build": "tsc -p ./",
+    "start": "node build/"
+  },
+  "dependencies": {
+    "fastify": "^4.17.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.1.5",
+    "tsx": "^3.12.7",
+    "typescript": "^5.0.4"
+  }
+}
