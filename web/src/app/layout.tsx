@@ -7,14 +7,16 @@ type RootLayoutProps = {
 }
 
 export const metadata = {
-  title: 'Cápsula do Tempo',
+  title: 'NLW Spacetime',
+  description:
+    'Uma cápsula do tempo desenvolvida com React, Next, TailWindCSS e TypeScript',
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
       <body
-        className={`${baiJamjureeFont.variable} ${robotoFont.variable} font-sans`}
+        className={`${baiJamjureeFont.variable} ${robotoFont.variable} bg-gray-900 font-sans text-gray-100`}
       >
         {children}
       </body>
