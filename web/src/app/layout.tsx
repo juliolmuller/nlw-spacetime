@@ -16,7 +16,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
       <body
-        className={`${baiJamjureeFont.variable} ${robotoFont.variable} bg-gray-900 font-sans text-gray-100`}
+        className={`${baiJamjureeFont.variable} ${robotoFont.variable} font-sans`}
       >
         {children}
       </body>
