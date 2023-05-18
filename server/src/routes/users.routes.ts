@@ -1,5 +1,5 @@
 import { FastifyInstance } from 'fastify'
-import { prisma } from '../database'
+import { prisma } from '../lib/prisma'
 
 export async function makeUsersRoutes(app: FastifyInstance) {
   app.get('/users', async () => {
