@@ -1,8 +1,7 @@
-import { PrismaClient } from '@prisma/client'
 import fastify from 'fastify'
+import { prisma } from './database'
 
 const port = Number(process.env.PORT) || 8080
-const prisma = new PrismaClient()
 const app = fastify()
 
 app.get('/', () => {
@@ -25,9 +24,9 @@ app.get('/users/:id', async (request) => {
 })
 
 app.post('/users', async (request) => {
-  const { name } = request.body as any
+  const { avatarUrl, githubId, login, name } = request.body as any
   const newUser = await prisma.user.create({
-    data: { name },
+    data: { avatarUrl, githubId, login, name },
   })
 
   return newUser
