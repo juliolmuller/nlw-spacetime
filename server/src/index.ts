@@ -1,3 +1,4 @@
+import cors from '@fastify/cors'
 import fastify from 'fastify'
 import { usersRoutes } from './routes/users.routes'
 import { memoriesRoutes } from './routes/memories.routes'
@@ -9,6 +10,7 @@ app.get('/', () => {
   return 'Hello, there!'
 })
 
+app.register(cors, { origin: true })
 app.register(usersRoutes)
 app.register(memoriesRoutes)
 
