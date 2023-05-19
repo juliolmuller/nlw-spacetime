@@ -1,4 +1,5 @@
 import { FastifyInstance } from 'fastify'
+import { z } from 'zod'
 import { prisma } from '../lib/prisma'
 
 export async function usersRoutes(app: FastifyInstance) {
@@ -9,7 +10,10 @@ export async function usersRoutes(app: FastifyInstance) {
   })
 
   app.get('/users/:id', async (request, response) => {
-    const { id } = request.params as any
+    const paramsSchema = z.object({
+      id: z.string().uuid(),
+    })
+    const { id } = paramsSchema.parse(request.params)
     const user = await prisma.user.findFirst({
       where: { id },
     })
@@ -25,7 +29,13 @@ export async function usersRoutes(app: FastifyInstance) {
   })
 
   app.post('/users', async (request, response) => {
-    const { avatarUrl, githubId, login, name } = request.body as any
+    const bodySchema = z.object({
+      avatarUrl: z.string().url(),
+      githubId: z.number().int().positive(),
+      login: z.string(),
+      name: z.string(),
+    })
+    const { avatarUrl, githubId, login, name } = bodySchema.parse(request.body)
     const newUser = await prisma.user.create({
       data: { avatarUrl, githubId, login, name },
     })

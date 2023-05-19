@@ -1,4 +1,5 @@
 import { FastifyInstance } from 'fastify'
+import { z } from 'zod'
 import { prisma } from '../lib/prisma'
 
 export async function memoriesRoutes(app: FastifyInstance) {
@@ -24,35 +25,31 @@ export async function memoriesRoutes(app: FastifyInstance) {
   })
 
   app.get('/memories/:id', async (request, response) => {
-    try {
-      const { id } = request.params as any
-      const memory = await prisma.memory.findUniqueOrThrow({
-        include: { user: true },
-        where: { id },
-      })
+    const paramsSchema = z.object({
+      id: z.string().uuid(),
+    })
+    const { id } = paramsSchema.parse(request.params)
+    const memory = await prisma.memory.findUniqueOrThrow({
+      include: { user: true },
+      where: { id },
+    })
 
-      return memory
-    } catch (error: any) {
-      if (error.code === 'P2025') {
-        response.code(404)
-        return {
-          message: 'Memory does not exist',
-        }
-      }
-      throw error
-    }
+    return memory
   })
 
   app.post('/memories', async (request, response) => {
-    const { content, coverUrl, isPublic, userId } = request.body as any
+    const bodySchema = z.object({
+      userId: z.string().uuid(),
+      createdAt: z.coerce.date().default(new Date()),
+      isPublic: z.coerce.boolean().optional(),
+      coverUrl: z.string().url(),
+      content: z.string(),
+    })
+    const { content, coverUrl, createdAt, isPublic, userId } = bodySchema.parse(
+      request.body,
+    )
     const newMemory = await prisma.memory.create({
-      data: {
-        createdAt: new Date().toISOString(),
-        content,
-        coverUrl,
-        isPublic,
-        userId,
-      },
+      data: { createdAt, content, coverUrl, isPublic, userId },
     })
 
     response.code(201)
@@ -60,56 +57,38 @@ export async function memoriesRoutes(app: FastifyInstance) {
   })
 
   app.put('/memories/:id', async (request, response) => {
-    try {
-      const { id } = request.params as any
-      const { content, coverUrl, isPublic, userId } = request.body as any
-      const newMemory = await prisma.memory.update({
-        data: {
-          createdAt: new Date().toISOString(),
-          content,
-          coverUrl,
-          isPublic,
-          userId,
-        },
-        where: { id },
-      })
+    const paramsSchema = z.object({
+      id: z.string().uuid(),
+    })
+    const bodySchema = z.object({
+      userId: z.string().uuid(),
+      createdAt: z.coerce.date(),
+      isPublic: z.coerce.boolean().optional(),
+      coverUrl: z.string().url(),
+      content: z.string(),
+    })
+    const { id } = paramsSchema.parse(request.params)
+    const { content, coverUrl, createdAt, isPublic, userId } = bodySchema.parse(
+      request.body,
+    )
+    const newMemory = await prisma.memory.update({
+      data: { createdAt, content, coverUrl, isPublic, userId },
+      where: { id },
+    })
 
-      return newMemory
-    } catch (error: any) {
-      if (error.code === 'P2025') {
-        response.code(404)
-        return {
-          message: 'Memory does not exist',
-        }
-      }
-      throw error
-    }
+    return newMemory
   })
 
   app.delete('/memories/:id', async (request, response) => {
-    try {
-      const { id } = request.params as any
-      const memory = await prisma.memory.delete({
-        include: { user: true },
-        where: { id },
-      })
+    const paramsSchema = z.object({
+      id: z.string().uuid(),
+    })
+    const { id } = paramsSchema.parse(request.params)
+    const memory = await prisma.memory.delete({
+      include: { user: true },
+      where: { id },
+    })
 
-      if (!memory) {
-        response.code(404)
-        return {
-          message: 'Memory does not exist',
-        }
-      }
-
-      return memory
-    } catch (error: any) {
-      if (error.code === 'P2025') {
-        response.code(404)
-        return {
-          message: 'Memory does not exist',
-        }
-      }
-      throw error
-    }
+    return memory
   })
 }
