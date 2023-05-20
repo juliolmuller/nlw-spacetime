@@ -4,7 +4,7 @@ export function SignInButton() {
   return (
     <a
       className="flex items-center gap-3 text-left transition-colors hover:text-gray-50"
-      href="#"
+      href={process.env.NEXT_PUBLIC_GITHUB_AUTH_URL}
     >
       <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-400">
         <UserIcon className="h-5 w-5 text-gray-500" />
