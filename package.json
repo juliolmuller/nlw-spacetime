@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "@fastify/cors": "^8.2.1",
-    "zod": "^3.21.4"
-  }
-}
