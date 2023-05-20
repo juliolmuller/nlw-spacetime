@@ -1,9 +1,13 @@
 import { Copyright } from '~/components/Copyright'
 import { EmptyMemories } from '~/components/EmptyMemories'
 import { Hero } from '~/components/Hero'
+import { Profile } from '~/components/Profile'
 import { SignInButton } from '~/components/SignInButton'
+import { checkAuth } from '~/lib/auth'
 
 export default function HomePage() {
+  const isAuthenticated = checkAuth()
+
   return (
     <div className="grid min-h-screen grid-cols-2 bg-[url(../assets/stars-1.svg)] bg-cover">
       <header className="relative flex flex-col items-start justify-between overflow-hidden border-r border-white/10 px-28 py-16">
@@ -14,7 +18,7 @@ export default function HomePage() {
         <div className="absolute bottom-0 right-2 top-0 w-2 bg-stripes" />
 
         {/* Content */}
-        <SignInButton />
+        {isAuthenticated ? <Profile /> : <SignInButton />}
         <Hero />
         <Copyright />
       </header>
