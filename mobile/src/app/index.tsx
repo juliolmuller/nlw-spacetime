@@ -5,19 +5,21 @@ import {
 } from '@expo-google-fonts/roboto'
 import { makeRedirectUri, useAuthRequest } from 'expo-auth-session'
 import { useFonts } from 'expo-font'
+import { useRouter } from 'expo-router'
 import { setItemAsync as setStorage } from 'expo-secure-store'
 import { StatusBar } from 'expo-status-bar'
 import { styled } from 'nativewind'
-import { ImageBackground, Text, TouchableOpacity, View } from 'react-native'
-import bgBlur from './assets/bg-blur.png'
-import Stripes from './assets/bg-stripes.svg'
-import SpacetimeLogo from './assets/nlw-spacetime-h-logo.svg'
 import { useEffect } from 'react'
-import { api } from './lib/api'
+import { ImageBackground, Text, TouchableOpacity, View } from 'react-native'
+import bgBlur from '../assets/bg-blur.png'
+import Stripes from '../assets/bg-stripes.svg'
+import SpacetimeLogo from '../assets/nlw-spacetime-h-logo.svg'
+import { api } from '../lib/api'
 
 const StyledStripes = styled(Stripes)
 
-export default function App() {
+export default function HomeScreen() {
+  const router = useRouter()
   const [areFontsLoaded] = useFonts({ BaiJamjuree700, Roboto400, Roboto700 })
   const [, response, signInWithGitHub] = useAuthRequest(
     {
@@ -36,13 +38,21 @@ export default function App() {
   )
 
   useEffect(() => {
-    if (response?.type === 'success') {
-      api
-        .post('/auth', { code: response.params.code })
-        .then((response) => setStorage('token', response.data.token))
-        .catch((error) => console.log(error))
+    async function handleGitHubAuthentication() {
+      if (response?.type === 'success') {
+        try {
+          const { code } = response.params
+          const { data } = await api.post('/auth', { code })
+          setStorage('token', data.token)
+          router.push('/memories')
+        } catch (error) {
+          console.log(error)
+        }
+      }
     }
-  }, [response])
+
+    handleGitHubAuthentication()
+  }, [response, router])
 
   if (!areFontsLoaded) {
     return null
@@ -59,7 +69,7 @@ export default function App() {
         <SpacetimeLogo />
 
         <View className="items-center gap-2">
-          <Text className="text-center text-2xl font-bold leading-tight text-gray-50">
+          <Text className="router-bold text-center text-2xl leading-tight text-gray-50">
             Sua cápsula do tempo
           </Text>
           <Text className="text-normal text-center font-bold leading-relaxed text-gray-100">
