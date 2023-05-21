@@ -3,18 +3,46 @@ import {
   Roboto_400Regular as Roboto400,
   Roboto_700Bold as Roboto700,
 } from '@expo-google-fonts/roboto'
+import { makeRedirectUri, useAuthRequest } from 'expo-auth-session'
 import { useFonts } from 'expo-font'
+import { setItemAsync as setStorage } from 'expo-secure-store'
 import { StatusBar } from 'expo-status-bar'
 import { styled } from 'nativewind'
 import { ImageBackground, Text, TouchableOpacity, View } from 'react-native'
 import bgBlur from './assets/bg-blur.png'
 import Stripes from './assets/bg-stripes.svg'
 import SpacetimeLogo from './assets/nlw-spacetime-h-logo.svg'
+import { useEffect } from 'react'
+import { api } from './lib/api'
 
 const StyledStripes = styled(Stripes)
 
 export default function App() {
   const [areFontsLoaded] = useFonts({ BaiJamjuree700, Roboto400, Roboto700 })
+  const [, response, signInWithGitHub] = useAuthRequest(
+    {
+      clientId: '4b5c87ab3d1f46570e3a',
+      scopes: ['identity'],
+      redirectUri: makeRedirectUri({
+        scheme: 'nlw-spacetime',
+      }),
+    },
+    {
+      authorizationEndpoint: 'https://github.com/login/oauth/authorize',
+      tokenEndpoint: 'https://github.com/login/oauth/access_token',
+      revocationEndpoint:
+        'https://github.com/settings/connections/applications/4b5c87ab3d1f46570e3a',
+    },
+  )
+
+  useEffect(() => {
+    if (response?.type === 'success') {
+      api
+        .post('/auth', { code: response.params.code })
+        .then((response) => setStorage('token', response.data.token))
+        .catch((error) => console.log(error))
+    }
+  }, [response])
 
   if (!areFontsLoaded) {
     return null
@@ -43,6 +71,7 @@ export default function App() {
         <TouchableOpacity
           className="rounded-full bg-green-500 px-5 py-2"
           activeOpacity={0.7}
+          onPress={() => signInWithGitHub()}
         >
           <Text className="font-alt text-sm uppercase text-black">
             Começar a Cadastrar
