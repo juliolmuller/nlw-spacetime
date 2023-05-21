@@ -18,7 +18,7 @@ export function Profile() {
         {user.name}
         <a
           className="block text-red-400 transition-colors hover:text-red-300"
-          href="#"
+          href="/api/auth/signout"
         >
           Sair
         </a>
