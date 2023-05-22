@@ -1,26 +1,13 @@
-import { BaiJamjuree_700Bold as BaiJamjuree700 } from '@expo-google-fonts/bai-jamjuree'
-import {
-  Roboto_400Regular as Roboto400,
-  Roboto_700Bold as Roboto700,
-} from '@expo-google-fonts/roboto'
 import { makeRedirectUri, useAuthRequest } from 'expo-auth-session'
-import { useFonts } from 'expo-font'
 import { useRouter } from 'expo-router'
 import { setItemAsync as setStorage } from 'expo-secure-store'
-import { StatusBar } from 'expo-status-bar'
-import { styled } from 'nativewind'
 import { useEffect } from 'react'
-import { ImageBackground, Text, TouchableOpacity, View } from 'react-native'
-import bgBlur from '../assets/bg-blur.png'
-import Stripes from '../assets/bg-stripes.svg'
+import { Text, TouchableOpacity, View } from 'react-native'
 import SpacetimeLogo from '../assets/nlw-spacetime-h-logo.svg'
 import { api } from '../lib/api'
 
-const StyledStripes = styled(Stripes)
-
 export default function HomeScreen() {
   const router = useRouter()
-  const [areFontsLoaded] = useFonts({ BaiJamjuree700, Roboto400, Roboto700 })
   const [, response, signInWithGitHub] = useAuthRequest(
     {
       clientId: '4b5c87ab3d1f46570e3a',
@@ -54,17 +41,8 @@ export default function HomeScreen() {
     handleGitHubAuthentication()
   }, [response, router])
 
-  if (!areFontsLoaded) {
-    return null
-  }
-
   return (
-    <ImageBackground
-      className="relative flex-1 items-center justify-center bg-gray-900"
-      source={bgBlur}
-    >
-      <StyledStripes className="absolute left-2" />
-
+    <View className="flex-1 items-center justify-center">
       <View className="items-center gap-6">
         <SpacetimeLogo />
 
@@ -92,8 +70,6 @@ export default function HomeScreen() {
       <Text className="absolute bottom-10 text-center text-sm font-normal leading-relaxed text-gray-200 underline">
         Feito com 💜 no NLW da Rocketseat
       </Text>
-
-      <StatusBar style="light" />
-    </ImageBackground>
+    </View>
   )
 }
