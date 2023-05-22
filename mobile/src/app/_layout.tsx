@@ -45,6 +45,7 @@ export default function RootLayout() {
       >
         <Stack.Screen name="index" redirect={isAuthenticated} />
         <Stack.Screen name="memories" />
+        <Stack.Screen name="new-memory" />
       </Stack>
     </ImageBackground>
   )
