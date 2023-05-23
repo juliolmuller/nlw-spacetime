@@ -57,7 +57,7 @@ export default function HomeScreen() {
         </View>
 
         <TouchableOpacity
-          className="rounded-full bg-green-500 px-5 py-2"
+          className="items-center rounded-full bg-green-500 px-5 py-2"
           activeOpacity={0.7}
           onPress={() => signInWithGitHub()}
         >
