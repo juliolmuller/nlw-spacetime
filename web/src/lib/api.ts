@@ -1,5 +1,5 @@
 import axios from 'axios'
 
 export const api = axios.create({
-  baseURL: process.env.SPACETIME_URL,
+  baseURL: process.env.NEXT_PUBLIC_SPACETIME_URL,
 })
