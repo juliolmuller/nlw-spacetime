@@ -48,7 +48,7 @@ export function MemoryForm() {
 
   return (
     <form
-      className="flex flex-1 flex-col gap-4"
+      className="flex flex-1 flex-col gap-6"
       noValidate
       onSubmit={handleSubmit}
     >

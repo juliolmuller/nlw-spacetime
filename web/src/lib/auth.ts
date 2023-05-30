@@ -13,8 +13,14 @@ export type User = {
   avatarUrl: string
 }
 
-export function getUser(): User {
+export function getToken() {
   const token = cookies().get('token')?.value
+
+  return token
+}
+
+export function getUser(): User {
+  const token = getToken()
 
   if (!token) {
     throw new Error('Unauthenticated.')
@@ -30,5 +36,5 @@ export function getUser(): User {
 }
 
 export function checkAuth() {
-  return Boolean(cookies().get('token'))
+  return cookies().has('token')
 }
